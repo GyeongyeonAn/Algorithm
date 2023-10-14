@@ -10,6 +10,7 @@ public class Solution {
                 {
                     output[0] = i;
                     output[1] = j;
+                    return output;
                 }
             }
         }
