@@ -1,55 +1,48 @@
-public class Solution 
-{
+public class Solution {
     public double FindMedianSortedArrays(int[] nums1, int[] nums2) 
     {
-        int m = nums1.Length;
-        int n = nums2.Length;
+        // 입력 배열 중 nums1이 더 작은 배열인 경우, 코드를 간단히 하기 위해 두 배열을 교환합니다.
+        if (nums1.Length > nums2.Length) {
+            return FindMedianSortedArrays(nums2, nums1);
+        }
         
-        // 두 배열을 합칩니다.
-        int[] merged = new int[m + n];
+        int x = nums1.Length;  // 배열 nums1의 길이
+        int y = nums2.Length;  // 배열 nums2의 길이
         
-        int i = 0, j = 0, k = 0;
-
-        while (i < m && j < n) {
-            if (nums1[i] < nums2[j]) {
-                merged[k] = nums1[i];
-                i++;
+        int low = 0;  // 이진 검색의 시작 위치
+        int high = x;  // 이진 검색의 끝 위치
+        
+        while (low <= high) 
+        {
+            int partitionX = (low + high) / 2;  // 배열 1을 나눌 위치
+            int partitionY = (x + y + 1) / 2 - partitionX;  // 배열 2를 나눌 위치
+            
+            int maxX = (partitionX == 0) ? int.MinValue : nums1[partitionX - 1];
+            int maxY = (partitionY == 0) ? int.MinValue : nums2[partitionY - 1];
+            int minX = (partitionX == x) ? int.MaxValue : nums1[partitionX];
+            int minY = (partitionY == y) ? int.MaxValue : nums2[partitionY];
+            
+            if (maxX <= minY && maxY <= minX) {
+                if ((x + y) % 2 == 0) 
+                {
+                    return (Math.Max(maxX, maxY) + Math.Min(minX, minY)) / 2.0;
+                } 
+                else 
+                {
+                    return Math.Max(maxX, maxY);
+                }
+            } 
+            else if (maxX > minY) 
+            {
+                high = partitionX - 1;
             } 
             else 
             {
-                merged[k] = nums2[j];
-                j++;
+                low = partitionX + 1;
             }
-            k++;
         }
         
-        // 남은 요소들을 복사
-        while (i < m) {
-            merged[k] = nums1[i];
-            i++;
-            k++;
-        }
-
-        while (j < n) {
-            merged[k] = nums2[j];
-            j++;
-            k++;
-        }
-        
-        // 합친 배열을 정렬합니다.
-        Array.Sort(merged);
-        
-        // 중앙값 계산
-        if ((m + n) % 2 == 0) 
-        {
-            int mid1 = merged[(m + n) / 2 - 1];
-            int mid2 = merged[(m + n) / 2];
-            return (double)(mid1 + mid2) / 2.0;
-        } 
-        else 
-        {
-            return (double)merged[(m + n) / 2];
-        }
+        // 오류 발생 시 기본값 반환.
+        return 0.0;
     }
 }
-
