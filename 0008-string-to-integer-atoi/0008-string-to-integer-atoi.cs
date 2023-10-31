@@ -2,6 +2,9 @@ public class Solution
 {
     public int MyAtoi(string s) 
     {
+        if (string.IsNullOrWhiteSpace(s))
+            return 0;
+
         // 1단계: 입력 문자열에서 숫자로 시작하도록 조정
         int startIndex = 0;
         while (startIndex < s.Length && s[startIndex] == ' ')
