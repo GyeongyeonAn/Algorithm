@@ -4,9 +4,12 @@ public class Solution
     {
         int sLength = s.Length;
         int pLength = p.Length;
+
+        // isMatch[i, j]는 문자열 s의 처음 i 문자와 패턴 p의 처음 j 문자가 매치되는지 여부를 나타냅니다.
         bool[,] isMatch = new bool[sLength + 1, pLength + 1];
 
-        isMatch[0, 0] = true; // 초기 상태: 빈 문자열과 빈 패턴은 매치됨
+        // 초기 상태: 빈 문자열과 빈 패턴은 매치됨
+        isMatch[0, 0] = true;
 
         for (int i = 0; i <= sLength; i++)
         {
@@ -33,6 +36,7 @@ public class Solution
             }
         }
 
+        // isMatch[sLength, pLength]에는 최종 결과가 저장됨
         return isMatch[sLength, pLength];
     }
 }
